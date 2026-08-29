@@ -1,0 +1,26 @@
+{
+  // Pylance用の追加探索パス設定（正解はこちらです）
+  "python.analysis.extraPaths": [
+    "./.venv/lib/python3.14/site-packages"
+  ],
+
+  // Pylanceによるリアルタイム型チェックを有効化
+  "python.analysis.typeCheckingMode": "basic",
+
+  // 保存時の自動フォーマット・整形設定（Ruffを使用）
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports.ruff": "explicit"
+    }
+  },
+
+  // Djangoテンプレート（HTML）のカラー表示・Emmet自動補完を有効化
+  "files.associations": {
+    "*.html": "django-html"
+  },
+  "emmet.includeLanguages": {
+    "django-html": "html"
+  }
+}
