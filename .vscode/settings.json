@@ -1,8 +1,6 @@
 {
   // Pylance用の追加探索パス設定（正解はこちらです）
-  "python.analysis.extraPaths": [
-    "./.venv/lib/python3.14/site-packages"
-  ],
+  "python.analysis.extraPaths": ["./.venv/lib/python3.14/site-packages"],
 
   // Pylanceによるリアルタイム型チェックを有効化
   "python.analysis.typeCheckingMode": "basic",
@@ -22,5 +20,7 @@
   },
   "emmet.includeLanguages": {
     "django-html": "html"
-  }
+  },
+  "python.analysis.autoImportCompletions": true,
+  "remote.autoForwardPortsFallback": 0
 }
