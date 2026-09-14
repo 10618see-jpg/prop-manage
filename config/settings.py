@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "properties",
     "inquiries",
     "contracts",
+    "core",
 ]
 
 MIDDLEWARE = [
