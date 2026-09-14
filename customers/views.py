@@ -55,5 +55,15 @@ def customer_update(request, pk):
             return redirect("customer_list")
     else:
         form = CustomerCreateForm(instance=customer)
-    return render(request, "customers/customer_create.html", {"form": form})
+    return render(request, "customers/customer_form.html", {"form": form})
 
+
+# customer_delete
+@login_required
+@role_required([UserRole.ADMIN])
+def customer_delete(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    if request.method == "POST":
+        customer.delete()
+        return redirect("customer_list")
+    return render(request, "customers/customer_confirm_delete.html", {"customer": customer})
