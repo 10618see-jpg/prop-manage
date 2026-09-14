@@ -41,3 +41,19 @@ def customer_create(request):
     else:
         form = CustomerCreateForm()
     return render(request, "customers/customer_create.html", {"form": form})
+
+
+# customer_update
+@login_required
+@role_required([UserRole.ADMIN, UserRole.EDITOR])
+def customer_update(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    if request.method == "POST":
+        form = CustomerCreateForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect("customer_list")
+    else:
+        form = CustomerCreateForm(instance=customer)
+    return render(request, "customers/customer_create.html", {"form": form})
+
