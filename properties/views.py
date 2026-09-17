@@ -6,7 +6,7 @@ from accounts.models import UserRole
 from core.decorators import role_required
 
 from .forms import BuildingForm, CondForm, LandForm
-from .models import PropertyType
+from .models import Property, PropertyType
 
 
 # 	種別選択画面の作成
@@ -64,3 +64,11 @@ def property_create_cond(request):
     else:
         form = CondForm()
     return render(request, "properties/property_create_cond.html", {"form": form})
+
+
+# 	物件一覧画面の作成
+@login_required
+@role_required([UserRole.ADMIN, UserRole.EDITOR, UserRole.VIEWER])
+def property_list(request):
+    properties = Property.objects.all()
+    return render(request, "properties/property_list.html", {"properties": properties})
