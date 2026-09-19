@@ -69,6 +69,57 @@ def property_create_cond(request):
 # 	物件一覧画面の作成
 @login_required
 @role_required([UserRole.ADMIN, UserRole.EDITOR, UserRole.VIEWER])
-def property_list(request):
+def property_list(
+    request,
+):
+    # 	property_typeで絞込
     properties = Property.objects.all()
+    property_type = request.GET.get("type")
+    if property_type:
+        properties = properties.filter(property_type=property_type)
+    # 	statusで絞込
+    status = request.GET.get("status")
+    if status:
+        properties = properties.filter(property_status=status)
+    # 	価格帯の絞り込み
+    min_price = request.GET.get("min_price")
+    max_price = request.GET.get("max_price")
+    if min_price:
+        properties = properties.filter(price__gte=min_price)
+    if max_price:
+        properties = properties.filter(price__lte=max_price)
+    # 	cityの絞り込み
+    city = request.GET.get("city")
+    if city:
+        properties = properties.filter(city__icontains=city)
+    # 	townの絞り込み
+    town = request.GET.get("town")
+    if town:
+        properties = properties.filter(town__icontains=town)
+    # 	areaの絞り込み
+    min_area = request.GET.get("min_area")
+    max_area = request.GET.get("max_area")
+    # 	土地の場合
+    if property_type == PropertyType.LAND:
+        if min_area:
+            properties = properties.filter(land__area__gte=min_area)
+        if max_area:
+            properties = properties.filter(land__area__lte=max_area)
+    # 	建物の場合
+    if property_type == PropertyType.BUILDING:
+        if min_area:
+            properties = properties.filter(building__area__gte=min_area)
+        if max_area:
+            properties = properties.filter(building__area__lte=max_area)
+    # 	マンションの場合
+    if property_type == PropertyType.COND:
+        if min_area:
+            properties = properties.filter(cond__area__gte=min_area)
+        if max_area:
+            properties = properties.filter(cond__area__lte=max_area)
+        # 	ペット可否の絞り込み
+        pet_policy = request.GET.get("pet_policy")
+        if pet_policy:
+            properties = properties.filter(cond__pet_policy=pet_policy)
+
     return render(request, "properties/property_list.html", {"properties": properties})
